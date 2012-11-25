@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<base href="http://pandanoir.web.fc2.com/"><meta charset="utf-8"><meta name="author" content="Panda Noir"><link rel="stylesheet" href="css/all.css" type="text/css">
+		<link rel="stylesheet" href="blackbox/body.css" type="text/css">
+		<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js" defer></script><![endif]--><script src="js/LAB.js"></script><script>var _gaq=_gaq||[];_gaq[_gaq.length]=["_setAccount","UA-33345601-1"];_gaq[_gaq.length]=["_trackPageview"];(function(a){var a=a.document,b=a.createElement("script");b.async=!0;b.src=("https:"==a.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";a=a.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a)})(this);</script>
+		<script>$LAB.script("//pandanoir.web.fc2.com/js/jquery.css3form.js").script("//pandanoir.web.fc2.com/js/jquery.placeholder.js").wait().script("//pandanoir.web.fc2.com/blackbox/blackbox.js");</script>
+		<meta name="description" content="圧縮をしてみにくくなったCSSを見やすく変身させます。">
+		<meta name="keywords" content="htmlツール集,javascriptツール集,webツール,html,javascript,CSS可視化,CSS整形,CSS 整形,サイト高速化,軽量化,blackbox,black box">
+		<link rel="canonical" href="http://pandanoir.web.fc2.com/blackbox/blackbox.html">
+		<title>Black Box</title>
+	</head>
+	<body>
+		<div id="body">
+			<header>
+				<h1 id="logo"><a href="blackbox/blackbox.html" id="logo_title">Black Box</a></h1>
+				<nav>
+					<ul id="nav">
+						<li class="now_location"><a href="blackbox/blackbox.html">Top</a></li>
+						<li><a href="blackbox/about.html">About</a></li>
+						<li><a href="blackbox/info.html">Info</a></li>
+						<li><a href="blackbox/how-to-use.html">How to use</a></li>
+						<li><a href="blackbox/contact.html">Contact</a></li>
+					</ul>
+				</nav>
+			</header>
+			<div class="cf">
+				<div id="lform">
+					<div class="cf">
+					<form class="form">
+						<legend>Before</legend>
+						<textarea id="bef" placeholder="ここにファイルをドラッグ&ドロップするか、コードをペーストしてください。"></textarea><br>
+						<input type="reset" value="クリア" class="reset inlineRbutton"><input type="button" value="選択" class="select inlinebutton"><br>
+					</form>
+					<form class="form">
+						<legend>After</legend>
+						<textarea id="aft"></textarea><br>
+						<input type="reset" value="クリア" class="reset inlineRbutton"><input type="button" value="選択" class="select inlinebutton"><br>
+					</form>
+					</div>
+				</div>
+				<div id="rform">
+					コロン周辺のスペース<br>
+					<label for="colon_none">なし</label><input type="radio" id="colon_none" name="colon" value="none">
+					<label for="colon_both">前後</label><input type="radio" id="colon_both" name="colon" value="both">
+					<label for="colon_before">前のみ</label><input type="radio" id="colon_before" name="colon" value="before">
+					<label for="colon_after">後ろのみ</label><input type="radio" id="colon_after" name="colon" value="after" checked>
+					インデント<br>
+					<label for="indent_tab">タブ</label><input type="radio" id="indent_tab" name="indent" value="tab" checked>
+					<label for="indent_space1">スペース1つ</label><input type="radio" id="indent_space1" name="indent" value="space1">
+					<label for="indent_space2">2つ</label><input type="radio" id="indent_space2" name="indent" value="space2">
+					<label for="indent_space3">3つ</label><input type="radio" id="indent_space3" name="indent" value="space3">
+					<label for="indent_space4">4つ</label><input type="radio" id="indent_space4" name="indent" value="space4">
+					<label for="indent_none">なし</label><input type="radio" id="indent_none" name="indent" value="none">
+					コンマ周辺のスペース<br>
+					<label for="comma_none">なし</label><input type="radio" id="comma_none" name="comma" value="none">
+					<label for="comma_both">前後</label><input type="radio" id="comma_both" name="comma" value="both">
+					<label for="comma_before">前のみ</label><input type="radio" id="comma_before" name="comma" value="before">
+					<label for="comma_after">後ろのみ</label><input type="radio" id="comma_after" name="comma" value="after" checked>
+					コメント前後の改行<br>
+					<label for="comment_none">なし</label><input type="radio" id="comment_none" name="comment" value="none">
+					<label for="comment_both">前後</label><input type="radio" id="comment_both" name="comment" value="both">
+					<label for="comment_before">前のみ</label><input type="radio" id="comment_before" name="comment" value="before">
+					<label for="comment_after">後ろのみ</label><input type="radio" id="comment_after" name="comment" value="after" checked>
+					カラーコード<br>
+					<label for="lower">小文字にする</label><input type="radio" id="lower" name="color" value="lower">
+					<label for="upper">大文字にする</label><input type="radio" id="upper" name="color" value="upper" checked>
+					<select id="encode">
+						<option value="utf-8">UTF-8</option>
+						<option value="shift-jis">Shift-JIS</option>
+					</select><br>
+					<input type="button" class="inlinebutton" value="設定を保存" id="save"><br>
+					<input type="button" class="inlinebutton" value="初期設定にする" id="default"><br>
+				</div>
+			</div>
+			<div id="mes">Readable</div>
+			<input type="button" class="inlinebutton" id="readable" value="整形"><br>
+			<footer id="footer"><nav id="social"></nav><aside id="address"><small>&copy; 2012 <a href="index.html">Panda noir</a>.</small></aside></footer>
+			<noscript>このサイトは、JavaScriptを使用しています。<br>だから、きちんとonにしてください。<br></noscript>
+		</div>
+	</body></html>
