@@ -11,13 +11,13 @@
 		$select=$rform.find("select"),
 		$json=JSON,
 		ls=localStorage;
-		var App={trace:!0,log:function(){if(this.trace&&"undefined"!=typeof console){var a=Array.prototype.slice.call(arguments,0);a.unshift("(App)");console.log.apply(console,a)}}};
+//		var App={trace:!0,log:function(){if(this.trace&&"undefined"!=typeof console){var a=Array.prototype.slice.call(arguments,0);a.unshift("(App)");console.log.apply(console,a)}}};
 		
 		if($json.parse(ls.getItem("radio_option"))!=null){
 			
 			var RadioOption=$json.parse(ls.getItem("radio_option")),
 			SelectOption=$json.parse(ls.getItem("select_option"));
-			$radios=$rform.find("input[type=radio]")
+			var $radios=$rform.find("input[type=radio]")
 			
 			for(var i=0,j=$radios.length;i<j;i++){
 				if(RadioOption[$radios.eq(i).attr("name")]){
@@ -64,11 +64,11 @@
 			event.preventDefault();
 			event.stopPropagation();
 			var $customRadioButton=$(".customRadioButton")
-			$customRadioButton.eq(0).find("a").eq(3).trigger("click")
-			$customRadioButton.eq(1).find("a").eq(0).trigger("click")
-			$customRadioButton.eq(2).find("a").eq(3).trigger("click")
-			$customRadioButton.eq(3).find("a").eq(3).trigger("click")
-			$customRadioButton.eq(4).find("a").eq(1).trigger("click")
+			$customRadioButton.eq(0).find("a").eq(3).trigger("click").end().end()
+			.eq(1).find("a").eq(0).trigger("click").end().end()
+			.eq(2).find("a").eq(3).trigger("click").end().end()
+			.eq(3).find("a").eq(3).trigger("click").end().end()
+			.eq(4).find("a").eq(1).trigger("click");
 		});
 		
 		$("#readable").on("click",function (e) {
@@ -84,7 +84,7 @@
 			var b = $lform.find("#bef").val().replace(/^[\s]*/gm, "")
 				.replace(/[\r\n]/g, "")
 				.replace(/[\t ]*([,:;\{])[\t ]*/g, "$1")
-				.replace(/(^\t )+[\t ]*\}[\t ]*/g, "$1}"),
+				.replace(/([^\t ]+?)[\t ]*\}[\t ]*/g, "$1}"),
 				indent = $rform.find("input[name='indent']:checked").val(),
 				colon = $rform.find("input[name='colon']:checked").val(),
 				comma = $rform.find("input[name='comma']:checked").val(),
@@ -93,11 +93,11 @@
 				indentchar,
 				commachar,
 				colonptn = /([^;\{])(.+?)[ ]?:[ ]?(.+?)([$;])/gm,
-				colonmod,
+				colonmod="$1$2",
 				commentptn = /\/\*([\s\S]+?)\*\//gm,
 				commentmod;
 			b = b.replace(/\{/g, "{\n")
-				.replace(/([^;\{\}\r\n\*\/])\}/g, "$1;}")
+				.replace(/([^;{}\r\n\*\/])\}/g, "$1;}")
 				.replace(/\}(?!$)/g, "}\n")
 				.replace(/;(?!\/\*)/g,";\n");
 			if(indent=="tab") indentchar = "\t";
@@ -132,10 +132,11 @@
 			}
 			b=line.join("\n");
 			
-			if(colon=="after")colonmod="$1$2: $3$4";
-			else if(colon=="both")colonmod="$1$2 : $3$4";
-			else if(colon=="before")colonmod="$1$2 :$3$4";
-			else if(colon=="none")colonmod="$1$2:$3$4";
+			if(colon=="after")colonmod=colonmod+": ";
+			else if(colon=="both")colonmod=colonmod+" : ";
+			else if(colon=="before")colonmod=colonmod+" :";
+			else if(colon=="none")colonmod=colonmod+":";
+			colonmod=colonmod+"$3$4";
 			b = b.replace(colonptn, colonmod)
 			
 			b = b.replace(/([: ,)(]|[\t ]?:[\t ]?)(#[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?)/g, function(all,prop,one){
@@ -151,6 +152,7 @@
 			$(this).siblings("textarea").select()
 		}).find("#bef").select();
 		$(window).on("keydown",function(e){
+			e.stopPropagation();
 			if(e.keyCode==13&&e.metaKey) $("#readable").trigger("click");
 		});
 		if(window.File){
