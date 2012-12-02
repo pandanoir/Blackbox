@@ -1,0 +1,215 @@
+$set-prefix: '' , -moz- , -webkit-,-o-,-ms-;
+$lformW:690px;
+@mixin PP($name, $value) {
+    @each $prefix in $set-prefix {
+        #{$prefix}#{$name}: #{$value};
+    }
+}
+body{
+	background: #0C0C0C;
+}
+#body{
+	background: #000;
+	border: 1px solid #999;
+	border-radius: 5px;
+	color: #999;
+	margin: 0 auto;
+	padding: 10px;
+	width: 1000px;
+}
+#footer{
+	border-top: 1px solid #999;
+}
+#beautifuler{
+	clear: both;
+}
+#results{
+	float: left;
+	width: 200px;
+}
+.form{
+	border: none;
+	display: block;
+	float: left;
+	margin: 0 round($lformW*2/100) 0 0;
+	padding: 0;
+	width: round($lformW*48/100);
+	textarea{
+		border: 2px solid #999;
+		border-top: none;
+		color: #999;
+		height: 15em;
+		resize: none;
+		width: 100%;
+		border-radius: 0 0 5px 5px;
+	}
+	legend{
+		background: #333;
+		border: 2px solid #999;
+		border-radius: 5px 5px 0 0;
+		color: #999;
+		padding: 8px 2px;
+		width: 100%;
+	}
+	.button, .Rbutton{
+		display: inline-block;
+	}
+	.reset{
+		border-radius: 5px 0 0 5px;
+		border-right: none;
+	}
+	.select{
+		border-radius: 0 5px 5px 0;
+	}
+}
+#mes{
+	opacity: .5;
+	padding: 5px;
+	&.on{
+		opacity: 1;
+		text-shadow: 1px 1px 3px rgba(255, 255, 255, .7), -1px -1px 3px rgba(255, 255, 255, .7);
+	}
+}
+#befB, #aftB, #minus{
+	display: block;
+	float: right;
+	text-align: right;
+	width: 120px;
+}
+#befB{
+	background: #DEF;
+}
+#aftB{
+	background: #FDE;
+}
+#minus{
+	background: #EEE;
+}
+#rform{
+	float: right;
+	position: relative;
+	@include PP("user-select","none");
+	width: 1000-$lformW;
+	input, label{
+		display: none;
+	}
+}
+#lform{
+	float: left;
+	width: $lformW;
+}
+.customCheckBox{
+	li{
+		list-style: none;
+	}
+	&,  ul{
+		margin: 0;
+	}
+	a.checked{
+		background: #369;
+		box-shadow: none;
+		left: 0;
+		top: 0;
+	}
+}
+#nav{
+	border-bottom: 1px solid #BBB;
+	font-size: 0;
+	margin: 3px 0;
+	padding: 0;
+	li{
+		border: 1px solid #999;
+		border-bottom: none;
+		border-radius: 3px 3px 0 0;
+		display: inline-block;
+		font-size: 16px;
+		list-style: none;
+		margin-right: 3px;
+		@include PP("transition", "background .3s linear 0");
+	}
+	li:hover, .now_location{
+		background: #369;
+	}
+	a{
+		color: #999;
+		display: block;
+		font-family: krungthep;
+		padding: 3px 8px;
+	}
+}
+#logo{
+	margin: .5em 0;
+}
+#logo_title{
+	background: url(./title.png) no-repeat;
+	text-indent: 100%;
+	width: 164px;
+	height: 40px;
+	display: block;
+}
+a.button, .button, .Rbutton, .inlinebutton, .inlineRbutton{
+	color: #999;
+	box-shadow: 0 1px 0 #999;
+}
+a.button, .button, .inlinebutton{
+	background: #333;
+	&:hover{
+		background: #444;
+	}
+	&:active{
+		background: #222;
+	}
+}
+.Rbutton, .inlineRbutton{
+	background: #933;
+	&:hover{
+		background: #A33;
+	}
+	&:active{
+		background: #833;
+	}
+}
+.customRadioButton{
+	ul{
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	li{
+		margin: 3px 3px 0 0;
+		display: inline-block;
+	}
+	a{
+		border: 1px solid #999;
+		border-radius: 5px;
+		padding: 3px;
+		color: #999;
+		box-shadow: 0 2px 0 #CCC;
+		position: relative;
+		top: -1px;
+		@include PP("user-select","none");
+		&.checked{
+			background: #369;
+			top: 0;
+			box-shadow: 0 1px 0 #666;
+		}
+	}
+}
+dt{
+	display: inline-block;
+	border-bottom: 1px dashed #666;
+	padding: 3px 0;
+}
+dd{
+	border-bottom: 1px dashed #666;
+	margin-bottom: .5em;
+	padding: .5em 0;
+}
+#body #FC2Form {
+	input[type="text"],textarea{
+		border-color: #369;
+	}
+}
+select{
+	margin: .5em 0;
+}
