@@ -7,12 +7,12 @@
 		});
 		var $rform = $("#rform"),
 		$lform=$("#lform"),
+		$bef=$lform.find("#bef"),
 		$radio=$rform.find("input[type=radio]:checked"),
 		$select=$rform.find("select"),
 		$json=JSON,
 		ls=localStorage;
 //		var App={trace:!0,log:function(){if(this.trace&&"undefined"!=typeof console){var a=Array.prototype.slice.call(arguments,0);a.unshift("(App)");console.log.apply(console,a)}}};
-		
 		if($json.parse(ls.getItem("radio_option"))!=null){
 			
 			var RadioOption=$json.parse(ls.getItem("radio_option")),
@@ -70,7 +70,6 @@
 			.eq(3).find("a").eq(3).trigger("click").end().end()
 			.eq(4).find("a").eq(1).trigger("click");
 		});
-		
 		$("#readable").on("click",function (e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -81,7 +80,7 @@
 				}
 				return result;
 			}
-			var b = $lform.find("#bef").val().replace(/^[\s]*/gm, "")
+			var b = $bef.val().replace(/^[\s]*/gm, "")
 				.replace(/[\r\n]/g, "")
 				.replace(/[\t ]*([,:;\{])[\t ]*/g, "$1")
 				.replace(/([^\t ]+?)[\t ]*\}[\t ]*/g, "$1}"),
@@ -150,20 +149,21 @@
 		$lform.on("click",".select,.reset",function (e) {
 			e.stopPropagation();
 			$(this).siblings("textarea").select()
-		}).find("#bef").select();
+		});
+		$bef.select();
 		$(window).on("keydown",function(e){
 			e.stopPropagation();
-			if(e.keyCode==13&&e.metaKey) $("#readable").trigger("click");
+			if(e.keyCode==13&&((e.metaKey&&!e.ctrlkey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
 		});
 		if(window.File){
-			$lform.on("dragenter","#bef",function(event){
+			$bef.on("dragenter",function(event){
 				event.preventDefault();
 				event.stopPropagation();
-			}).on("dragover","#bef",function(event){
+			}).on("dragover",function(event){
 				event.originalEvent.dataTransfer.dropEffect="copy";
 				event.preventDefault();
 				event.stopPropagation();
-			}).on("drop","#bef",function(event){
+			}).on("drop",function(event){
 				//ドラッグアンドドロップ
 				event.preventDefault();
 				event.stopPropagation();
@@ -179,6 +179,8 @@
 					},this)
 				}
 			})
+		}else{
+			$bef.attr("placeholder","ここにコードをペーストしてください。どうやらお使いのブラウザではドラッグアンドドロップは対応していないようです。");
 		}
 	});
 }(jQuery,this));
