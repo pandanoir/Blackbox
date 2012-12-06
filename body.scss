@@ -5,8 +5,16 @@ $lformW:690px;
         #{$prefix}#{$name}: #{$value};
     }
 }
+@mixin bg($main){
+	background:$main;
+    @each $prefix in $set-prefix {
+		background: #{$prefix}linear-gradient(top,#{$main} 0%,#{$main} 50%, darken( $main , 13.5%) 51%, darken( $main , 20%) 100%);
+    }
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, darken($main,20%)), color-stop(0.51, darken($main,13.5%)), color-stop(0.50, $main), color-stop(0.00, $main));
+}
 body{
 	background: #0C0C0C;
+	font-family:"Gill sans",Osaka,Arial;
 }
 #body{
 	background: #000;
@@ -44,7 +52,7 @@ body{
 		border-radius: 0 0 5px 5px;
 	}
 	legend{
-		background: #333;
+		@include bg(#333);
 		border: 2px solid #999;
 		border-radius: 5px 5px 0 0;
 		color: #999;
@@ -188,6 +196,7 @@ a.button, .button, .inlinebutton{
 		position: relative;
 		top: -1px;
 		@include PP("user-select","none");
+		@include bg(#333);
 		&.checked{
 			background: #369;
 			top: 0;
