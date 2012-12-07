@@ -181,16 +181,18 @@ a.button, .button, .inlinebutton{
 	ul{
 		padding: 0;
 		margin: 0;
+		height:25px;
 		list-style: none;
 	}
 	li{
-		margin: 3px 3px 0 0;
+		margin-right:3px;
 		display: inline-block;
 	}
 	a{
 		border: 1px solid #999;
 		border-radius: 5px;
-		padding: 3px;
+		padding: 0 3px;
+		height:23px;
 		display:block;
 		color: #999;
 		box-shadow: 0 2px 0 #CCC;
