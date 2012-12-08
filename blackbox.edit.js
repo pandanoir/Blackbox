@@ -63,7 +63,7 @@
 		}).on("click","#default",function(event){
 			event.preventDefault();
 			event.stopPropagation();
-			var $customRadioButton=$(".customRadioButton")
+			var $customRadioButton=$("div.customRadioButton")
 			$customRadioButton.eq(0).find("a").eq(3).trigger("click").end().end()
 			.eq(1).find("a").eq(0).trigger("click").end().end()
 			.eq(2).find("a").eq(3).trigger("click").end().end()
