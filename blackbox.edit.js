@@ -153,7 +153,7 @@
 		$bef.select();
 		$(window).on("keydown",function(e){
 			e.stopPropagation();
-			if(e.keyCode==13&&((e.metaKey&&!e.ctrlkey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
+			if(e.keyCode==13&&((!e.ctrlkey&&e.metaKey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
 		});
 		if(window.File){
 			$bef.on("dragenter",function(event){
