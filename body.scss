@@ -1,5 +1,6 @@
 $set-prefix: '' , -moz- , -webkit-,-o-,-ms-;
-$lformW:690px;
+$rformWid: 40px;
+$lformWid: 1000-$rformWid;
 @mixin PP($name, $value) {
     @each $prefix in $set-prefix {
         #{$prefix}#{$name}: #{$value};
@@ -35,20 +36,33 @@ body{
 	float: left;
 	width: 200px;
 }
+#board{
+	height: 370px;
+}
+#wrench {
+	border: 2px solid #999;
+	padding: 3px;
+	background:#CCC;
+	margin-top: 3px;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 22px;
+	height: 22px;
+}
 .form{
 	border: none;
 	display: block;
 	float: left;
-	margin: 0 round($lformW*2/100) 0 0;
+	margin: 3px floor($lformWid * 0.005) 0;
 	padding: 0;
-	width: round($lformW*48/100);
+	width: floor($lformWid * 0.49);
 	textarea{
 		border: 2px solid #999;
 		border-top: none;
 		color: #999;
 		height: 15em;
 		resize: none;
-		width: 100%;
+		width: round($lformWid * 0.48 - 4 - 4);
 		border-radius: 0 0 5px 5px;
 	}
 	legend{
@@ -57,7 +71,7 @@ body{
 		border-radius: 5px 5px 0 0;
 		color: #999;
 		padding: 8px 2px;
-		width: 100%;
+		width: round($lformWid * 0.48 - 4 - 4);
 	}
 	.button, .Rbutton{
 		display: inline-block;
@@ -69,6 +83,18 @@ body{
 	.select{
 		border-radius: 0 5px 5px 0;
 	}
+}
+#options{
+	display:none;
+	background: #000;
+	border-left:3px solid #999;
+	position: absolute;
+	right: 100%;
+	top: 0;
+	padding: 0 3px;
+	z-index: 5;
+	height: 100%;
+	width:320px;
 }
 #mes{
 	opacity: .5;
@@ -96,15 +122,17 @@ body{
 #rform{
 	float: right;
 	position: relative;
+	height:100%;
 	@include PP("user-select","none");
-	width: 1000-$lformW;
+	width: $rformWid;
 	input, label{
 		display: none;
 	}
 }
 #lform{
 	float: left;
-	width: $lformW;
+	width: $lformWid;
+	height:100%;
 }
 .customCheckBox{
 	li{
@@ -123,7 +151,6 @@ body{
 #nav{
 	border-bottom: 1px solid #BBB;
 	font-size: 0;
-	margin: 3px 0;
 	padding: 0;
 	li{
 		border: 1px solid #999;

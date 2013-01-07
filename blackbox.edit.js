@@ -1,10 +1,17 @@
 (function($,window){
 	$(function () {
 		$("body").on("dragover",function(event){
-			event.preventDefault();
-			event.stopPropagation();
+			event.pd();
+			event.sp();
 			return false;
 		});
+		$.Event.fn=$.Event.prototype
+		$.Event.fn.pd=function(){
+			this.preventDefault();
+		}
+		$.Event.fn.sp=function(){
+			this.stopPropagation();
+		}
 		var $rform = $("#rform"),
 		$lform=$("#lform"),
 		$bef=$lform.find("#bef"),
@@ -45,8 +52,8 @@
 		}
 		$rform.css3form().on("click","#save",function(event){
 			
-			event.preventDefault();
-			event.stopPropagation();
+			event.pd();
+			event.sp();
 			$radio=$rform.find("input[type=radio]:checked")
 			
 			for(var i=0,j=$radio.length;i<j;i++){
@@ -61,8 +68,8 @@
 			ls.setItem("select_option",$json.stringify(SelectOption));
 			//オプション設定の保存
 		}).on("click","#default",function(event){
-			event.preventDefault();
-			event.stopPropagation();
+			event.pd();
+			event.sp();
 			var $customRadioButton=$("div.customRadioButton")
 			$customRadioButton.eq(0).find("a").eq(3).trigger("click").end().end()
 			.eq(1).find("a").eq(0).trigger("click").end().end()
@@ -71,8 +78,8 @@
 			.eq(4).find("a").eq(1).trigger("click");
 		});
 		$("#readable").on("click",function (e) {
-			e.preventDefault();
-			e.stopPropagation();
+			e.pd();
+			e.sp();
 			String.prototype.mult = function (num) {
 				var result = "";
 				for(var i = 0; i < num; i++) {
@@ -147,26 +154,31 @@
 			$("#mes").not(":animated").addClass("on").fadeTo(1500, 0.5,function(){$(this).removeClass("on")})
 		});
 		$lform.on("click",".select,.reset",function (e) {
-			e.stopPropagation();
+			e.sp();
 			$(this).siblings("textarea").select()
 		});
 		$bef.select();
 		$(window).on("keydown",function(e){
-			e.stopPropagation();
+			e.sp();
 			if(e.keyCode==13&&((!e.ctrlkey&&e.metaKey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
 		});
+		$("#wrench").on("click",function(event){
+			event.pd();
+			event.sp();
+			$("#options").toggle();
+		})
 		if(window.File){
 			$bef.on("dragenter",function(event){
-				event.preventDefault();
-				event.stopPropagation();
+				event.pd();
+				event.sp();
 			}).on("dragover",function(event){
 				event.originalEvent.dataTransfer.dropEffect="copy";
-				event.preventDefault();
-				event.stopPropagation();
+				event.pd();
+				event.sp();
 			}).on("drop",function(event){
 				//ドラッグアンドドロップ
-				event.preventDefault();
-				event.stopPropagation();
+				event.pd();
+				event.sp();
 				event=event.originalEvent;
 				var files=event.dataTransfer.files,
 				encode=$rform.find("#encode").find("option:selected").val();
