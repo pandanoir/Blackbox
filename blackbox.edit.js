@@ -19,8 +19,8 @@
 		$select=$rform.find("select"),
 		$json=JSON,
 		ls=localStorage;
-//		var App={trace:!0,log:function(){if(this.trace&&"undefined"!=typeof console){var a=Array.prototype.slice.call(arguments,0);a.unshift("(App)");console.log.apply(console,a)}}};
-		if($json.parse(ls.getItem("radio_option"))!=null){
+//		var App={trace:!0,log:function(){if(this.trace&&"undefined"!==typeof console){var a=Array.prototype.slice.call(arguments,0);a.unshift("(App)");console.log.apply(console,a)}}};
+		if($json.parse(ls.getItem("radio_option"))!==null){
 			
 			var RadioOption=$json.parse(ls.getItem("radio_option")),
 			SelectOption=$json.parse(ls.getItem("select_option"));
@@ -102,53 +102,148 @@
 				colonmod="$1$2",
 				commentptn = /\/\*([\s\S]+?)\*\//gm,
 				commentmod;
-			b = b.replace(/\{/g, "{\n")
-				.replace(/([^;{}\r\n\*\/])\}/g, "$1;}")
-				.replace(/\}(?!$)/g, "}\n")
-				.replace(/;(?!\/\*)/g,";\n");
-			if(indent=="tab") indentchar = "\t";
-			else if(indent=="space1")indentchar = " ";
-			else if(indent=="space2")indentchar = "  ";
-			else if(indent=="space3")indentchar = "   ";
-			else if(indent=="space4")indentchar = "    ";
-			else if(indent=="none")indentchar = "";
+			var CSSBlock=function(){
+				var that={};
+				var blocks=[];
+				that.length=0;
+				function push(block){
+					blocks[blocks.length]=block;
+					that.length+=1;
+				};
+				that.push=push
+				that.select=function(num){
+					if(typeof num==="number"){
+						var result={};
+						for(var key in blocks[num])
+							result[key]=blocks[num][key]
+					}else{
+						var result=[]
+						for(var i=0,j=blocks.length;i<j;i++){
+							result[i]={};
+							for(var key in blocks[i]){
+								result[i][key]=blocks[i][key];
+							}
+						}
+					}
+					return result;
+				}
+				that.init=function(str){
+					blocks=[]
+					that.length=0;
+					if(-1!==str.indexOf("{")){
+						var start=[str.indexOf("{")],
+							end=[str.indexOf("}")];
+						while(str.indexOf("{",start[start.length-1]+1)>0&&str.indexOf("{",start[start.length-1]+1)!=-1){
+							start[start.length]=str.indexOf("{",start[start.length-1]+1)+1
+							end[end.length]=str.indexOf("}",end[end.length-1]+1)
+						}
+						for(var i=start.length-1;i>0;i-=1){
+							for(var kk=0,ll=end.length;kk<ll;kk+=1){
+								if(start[i]<end[kk]&&end[kk]) {
+									var count=start[i]-2;
+									while(count>0){
+										if(str.charAt(count)==="}"){
+											count+=1
+											break;
+										}
+										count-=1
+									}
+									var now=str.slice(count,end[kk]+1)
+									now={
+										selector:/([^\{]+?)\{/.exec(now)[1],
+										properties:/\{([\s\S]+?)\}/.exec(now)[1],
+										string:now,
+										change:function(str){
+											this.string=str;
+											this.selector=/\{([\s\S]+?)\}/.exec(str)[1];
+											this.properties=/\{([\s\S]+?)\}/.exec(str)[1];
+										}
+									}
+									push(now);
+									end[kk]=null
+								}
+							}
+						}
+					}else{
+						str={
+							properties:str,
+							string:str,
+							change:function(str){
+								this.string=str;
+								this.properties=/\{([\s\S]+?)\}/.exec(str)[1];
+							}
+						}
+						push(str)
+					}
+				}
+				return that
+			}
+			CSSBlock=CSSBlock()
+			CSSBlock.init(b)
+			for(var i=0,j=CSSBlock.length;i<j;i+=1){
+				console.log("start")
+				now=CSSBlock.select(i).string;
+				console.log(now)
+				b = b.replace(now,now.replace(/([^#])\{/g, "$1{\n"));
+				now=now.replace(/([^#])\{/g, "$1{\n")
+				console.log(now)
+				b = b.replace(now,now.replace(/([^#])\{([^{]*?)([^;{}\r\n*/])\}/g, "$1{$2$3;}"));
+				now=now.replace(/([^#])\{([^{]*?)([^;{}\r\n*/])\}/g, "$1{$2$3;}")
+				console.log(now)
+				b = b.replace(now,now.replace(/([^#])\{([^{]*?)\}(?!$)/g, "$1{$2}\n"));
+				now=now.replace(/([^#])\{([^{]*?)\}(?!$)/g, "$1{$2}\n")
+				console.log(now)
+				b = b.replace(now,now.replace(/;(?!\/\*)/g,";\n"));
+				now=now.replace(/;(?!\/\*)/g,";\n")
+				console.log(now)
+				console.log("end")
+			}
+			if(indent==="tab") indentchar = "\t";
+			else if(indent==="space1")indentchar = " ";
+			else if(indent==="space2")indentchar = "  ";
+			else if(indent==="space3")indentchar = "   ";
+			else if(indent==="space4")indentchar = "    ";
+			else if(indent==="none")indentchar = "";
 			
-			if(comma=="after")commachar = ", ";
-			else if(comma=="both")commachar = " , ";
-			else if(comma=="before")commachar = " ,";
-			else if(comma=="none")commachar = ",";
+			if(comma==="after")commachar = ", ";
+			else if(comma==="both")commachar = " , ";
+			else if(comma==="before")commachar = " ,";
+			else if(comma==="none")commachar = ",";
 			b=b.replace(/[ ]?,[ ]?/g, commachar);
 			
-			if(comment=="after")commentmod="\/\*$1\*\/\n";
-			else if(comment=="both")commentmod="\n\/\*$1\*\/\n";
-			else if(comment=="before")commentmod="\n\/\*$1\*\/";
-			else if(comment=="none")commentmod="\/\*$1\*\/";
+			if(comment==="after")commentmod="\/\*$1\*\/\n";
+			else if(comment==="both")commentmod="\n\/\*$1\*\/\n";
+			else if(comment==="before")commentmod="\n\/\*$1\*\/";
+			else if(comment==="none")commentmod="\/\*$1\*\/";
 			b = b.replace(commentptn, commentmod)
 			
 			var line = b.split("\n"),
 				indents = 0;
 			for(var i = 0, j = line.length; i < j; i++) {
-				if(line[i].indexOf("}") != -1) {
+				if(line[i].indexOf("}") !== -1) {
 					indents--
 				}
 				line[i] = indentchar.mult(indents) + line[i];
-				if(line[i].indexOf("{") != -1) {
+				if(line[i].indexOf("{") !== -1) {
 					indents++
 				}
 			}
 			b=line.join("\n");
 			
-			if(colon=="after")colonmod=colonmod+": ";
-			else if(colon=="both")colonmod=colonmod+" : ";
-			else if(colon=="before")colonmod=colonmod+" :";
-			else if(colon=="none")colonmod=colonmod+":";
+			if(colon==="after")colonmod=colonmod+": ";
+			else if(colon==="both")colonmod=colonmod+" : ";
+			else if(colon==="before")colonmod=colonmod+" :";
+			else if(colon==="none")colonmod=colonmod+":";
 			colonmod=colonmod+"$3$4";
 			b = b.replace(colonptn, colonmod)
 			
-			b = b.replace(/([: ,)(]|[\t ]?:[\t ]?)(#[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?)/g, function(all,prop,one){
-				if(color=="lower") return prop+(one.toLowerCase())
-				else if(color=="upper") return prop+(one.toUpperCase())
-			});//カラーを小文字か大文字に
+			CSSBlock.init(b);
+			for(var i=0,j=CSSBlock.length;i<j;i+=1){
+				b = b.replace(CSSBlock.select(i).properties,CSSBlock.select(i).properties.replace(/([: ,)(]|[\t ]?:[\t ]?)(#[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?)/g, function(all,prop,one){
+					if(color==="lower") return prop+(one.toLowerCase())
+					else if(color==="upper") return prop+(one.toUpperCase())
+				}));//カラーを小文字か大文字に
+			}
 			
 			$lform.find("#aft").val(b).select();
 			$("#mes").not(":animated").addClass("on").fadeTo(1500, 0.5,function(){$(this).removeClass("on")})
@@ -160,7 +255,7 @@
 		$bef.select();
 		$(window).on("keydown",function(e){
 			e.sp();
-			if(e.keyCode==13&&((!e.ctrlkey&&e.metaKey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
+			if(e.keyCode===13&&((!e.ctrlkey&&e.metaKey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
 		});
 		$("#wrench").on("click",function(event){
 			event.pd();

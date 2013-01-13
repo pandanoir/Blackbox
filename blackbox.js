@@ -1,1 +1,293 @@
-(function(c,v){c(function(){c("body").on("dragover",function(b){b.pd();b.sp();return!1});c.Event.fn=c.Event.prototype;c.Event.fn.pd=function(){this.preventDefault()};c.Event.fn.sp=function(){this.stopPropagation()};var h=c("#rform"),t=c("#lform"),s=t.find("#bef"),f=h.find("input[type=radio]:checked"),d=h.find("select"),q=JSON,r=localStorage;if(null!=q.parse(r.getItem("radio_option"))){for(var g=q.parse(r.getItem("radio_option")),e=q.parse(r.getItem("select_option")),p=h.find("input[type=radio]"),a=0,n=p.length;a<n;a++)g[p.eq(a).attr("name")]?p.eq(a).val([g[p.eq(a).attr("name")]]):g[p.eq(a).attr("name")]=f.filter("[name='"+p.eq(a).attr("name")+"']").val();a=0;for(n=d.length;a<n;a++)e[d.eq(a).attr("id")]?d.eq(a).val(e[d.eq(a).attr("id")]):e[d.eq(a).attr("id")]=d.eq(a).find("option:selected").val()}else{g={};e={};a=0;for(n=f.length;a<n;a++)g[f.eq(a).attr("name")]=f.eq(a).val();a=0;for(n=d.length;a<n;a++)e[d.eq(a).attr("id")]=d.eq(a).find("option:selected").val()}h.css3form().on("click","#save",function(b){b.pd();b.sp();f=h.find("input[type=radio]:checked");b=0;for(var u=f.length;b<u;b++)g[f.eq(b).attr("name")]=f.eq(b).val();b=0;for(var a=h.find("select"),u=a.length;b<u;b++)e[a.eq(b).attr("id")]=a.eq(b).find("option:selected").val();r.setItem("radio_option",q.stringify(g));r.setItem("select_option",q.stringify(e))}).on("click","#default",function(b){b.pd();b.sp();c("div.customRadioButton").eq(0).find("a").eq(3).trigger("click").end().end().eq(1).find("a").eq(0).trigger("click").end().end().eq(2).find("a").eq(3).trigger("click").end().end().eq(3).find("a").eq(3).trigger("click").end().end().eq(4).find("a").eq(1).trigger("click")});c("#readable").on("click",function(b){b.pd();b.sp();String.prototype.mult=function(b){for(var a="",c=0;c<b;c++)a+=this;return a};var a=s.val().replace(/^[\s]*/gm,"").replace(/[\r\n]/g,"").replace(/[\t ]*([,:;\{])[\t ]*/g,"$1").replace(/([^\t ]+?)[\t ]*\}[\t ]*/g,"$1}"),m=h.find("input[name='indent']:checked").val();b=h.find("input[name='colon']:checked").val();var d=h.find("input[name='comma']:checked").val(),f=h.find("input[name='comment']:checked").val(),g=h.find("input[name='color']:checked").val(),e,j,k="$1$2",l,a=a.replace(/\{/g,"{\n").replace(/([^;{}\r\n\*\/])\}/g,"$1;}").replace(/\}(?!$)/g,"}\n").replace(/;(?!\/\*)/g,";\n");"tab"==m?e="\t":"space1"==m?e=" ":"space2"==m?e="  ":"space3"==m?e="   ":"space4"==m?e="    ":"none"==m&&(e="");"after"==d?j=", ":"both"==d?j=" , ":"before"==d?j=" ,":"none"==d&&(j=",");a=a.replace(/[ ]?,[ ]?/g,j);"after"==f?l="/*$1*/\n":"both"==f?l="\n/*$1*/\n":"before"==f?l="\n/*$1*/":"none"==f&&(l="/*$1*/");a=a.replace(/\/\*([\s\S]+?)\*\//gm,l);j=a.split("\n");a=l=0;for(m=j.length;a<m;a++)-1!=j[a].indexOf("}")&&l--,j[a]=e.mult(l)+j[a],-1!=j[a].indexOf("{")&&l++;a=j.join("\n");"after"==b?k+=": ":"both"==b?k+=" : ":"before"==b?k+=" :":"none"==b&&(k+=":");a=a.replace(/([^;\{])(.+?)[ ]?:[ ]?(.+?)([$;])/gm,k+"$3$4");a=a.replace(/([: ,)(]|[\t ]?:[\t ]?)(#[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?)/g,function(b,a,c){if("lower"==g)return a+c.toLowerCase();if("upper"==g)return a+c.toUpperCase()});t.find("#aft").val(a).select();c("#mes").not(":animated").addClass("on").fadeTo(1500,0.5,function(){c(this).removeClass("on")})});t.on("click",".select,.reset",function(a){a.sp();c(this).siblings("textarea").select()});s.select();c(v).on("keydown",function(a){a.sp();13==a.keyCode&&(!a.ctrlkey&&a.metaKey||a.ctrlkey&&!a.metakey)&&c("#readable").trigger("click")});c("#wrench").on("click",function(a){a.pd();a.sp();c("#options").toggle()});if(v.File)s.on("dragenter",function(a){a.pd();a.sp()}).on("dragover",function(a){a.originalEvent.dataTransfer.dropEffect="copy";a.pd();a.sp()}).on("drop",function(a){a.pd();a.sp();a=a.originalEvent;a=a.dataTransfer.files;for(var e=h.find("#encode").find("option:selected").val(),d=0,f=a.length;d<f;d++){var g=new FileReader;g.readAsText(a[d],e);g.onload=c.proxy(function(){c(this).val(g.result);c("#readable").trigger("click")},this)}});else s.attr("placeholder","\u3053\u3053\u306b\u30b3\u30fc\u30c9\u3092\u30da\u30fc\u30b9\u30c8\u3057\u3066\u304f\u3060\u3055\u3044\u3002\u3069\u3046\u3084\u3089\u304a\u4f7f\u3044\u306e\u30d6\u30e9\u30a6\u30b6\u3067\u306f\u30c9\u30e9\u30c3\u30b0\u30a2\u30f3\u30c9\u30c9\u30ed\u30c3\u30d7\u306f\u5bfe\u5fdc\u3057\u3066\u3044\u306a\u3044\u3088\u3046\u3067\u3059\u3002")})})(jQuery,this);
+(function($,window){
+	$(function () {
+		$("body").on("dragover",function(event){
+			event.pd();
+			event.sp();
+			return false;
+		});
+		$.Event.fn=$.Event.prototype
+		$.Event.fn.pd=function(){
+			this.preventDefault();
+		}
+		$.Event.fn.sp=function(){
+			this.stopPropagation();
+		}
+		var $rform = $("#rform"),
+		$lform=$("#lform"),
+		$bef=$lform.find("#bef"),
+		$radio=$rform.find("input[type=radio]:checked"),
+		$select=$rform.find("select"),
+		$json=JSON,
+		ls=localStorage;
+//		var App={trace:!0,log:function(){if(this.trace&&"undefined"!==typeof console){var a=Array.prototype.slice.call(arguments,0);a.unshift("(App)");console.log.apply(console,a)}}};
+		if($json.parse(ls.getItem("radio_option"))!==null){
+			
+			var RadioOption=$json.parse(ls.getItem("radio_option")),
+			SelectOption=$json.parse(ls.getItem("select_option"));
+			var $radios=$rform.find("input[type=radio]")
+			
+			for(var i=0,j=$radios.length;i<j;i++){
+				if(RadioOption[$radios.eq(i).attr("name")]){
+					$radios.eq(i).val( [RadioOption[$radios.eq(i).attr("name")]] )
+				}
+				else{
+					RadioOption[$radios.eq(i).attr("name")] = $radio.filter("[name='"+$radios.eq(i).attr("name")+"']").val();
+				}
+			}
+			
+			for(var i=0,j=$select.length;i<j;i++){
+				if(SelectOption[$select.eq(i).attr("id")]) $select.eq(i).val(SelectOption[$select.eq(i).attr("id")]);
+				else{SelectOption[$select.eq(i).attr("id")]=$select.eq(i).find("option:selected").val();}
+			}
+			
+			//オプション設定の読み込み
+		}else{
+			var RadioOption={},SelectOption={};
+			for(var i=0,j=$radio.length;i<j;i++){
+				RadioOption[$radio.eq(i).attr("name")] = $radio.eq(i).val();
+			}
+			for(var i=0,j=$select.length;i<j;i++){
+				SelectOption[$select.eq(i).attr("id")]=$select.eq(i).find("option:selected").val();
+			}
+		}
+		$rform.css3form().on("click","#save",function(event){
+			
+			event.pd();
+			event.sp();
+			$radio=$rform.find("input[type=radio]:checked")
+			
+			for(var i=0,j=$radio.length;i<j;i++){
+				RadioOption[$radio.eq(i).attr("name")] = $radio.eq(i).val();
+			}
+			
+			for(var i=0,$select=$rform.find("select"),j=$select.length;i<j;i++){
+				SelectOption[$select.eq(i).attr("id")]=$select.eq(i).find("option:selected").val();
+			}
+			
+			ls.setItem("radio_option",$json.stringify(RadioOption));
+			ls.setItem("select_option",$json.stringify(SelectOption));
+			//オプション設定の保存
+		}).on("click","#default",function(event){
+			event.pd();
+			event.sp();
+			var $customRadioButton=$("div.customRadioButton")
+			$customRadioButton.eq(0).find("a").eq(3).trigger("click").end().end()
+			.eq(1).find("a").eq(0).trigger("click").end().end()
+			.eq(2).find("a").eq(3).trigger("click").end().end()
+			.eq(3).find("a").eq(3).trigger("click").end().end()
+			.eq(4).find("a").eq(1).trigger("click");
+		});
+		$("#readable").on("click",function (e) {
+			e.pd();
+			e.sp();
+			String.prototype.mult = function (num) {
+				var result = "";
+				for(var i = 0; i < num; i++) {
+					result += this;
+				}
+				return result;
+			}
+			var b = $bef.val().replace(/^[\s]*/gm, "")
+				.replace(/[\r\n]/g, "")
+				.replace(/[\t ]*([,:;\{])[\t ]*/g, "$1")
+				.replace(/([^\t ]+?)[\t ]*\}[\t ]*/g, "$1}"),
+				indent = $rform.find("input[name='indent']:checked").val(),
+				colon = $rform.find("input[name='colon']:checked").val(),
+				comma = $rform.find("input[name='comma']:checked").val(),
+				comment = $rform.find("input[name='comment']:checked").val(),
+				color = $rform.find("input[name='color']:checked").val(),
+				indentchar,
+				commachar,
+				colonptn = /([^;\{])(.+?)[ ]?:[ ]?(.+?)([$;])/gm,
+				colonmod="$1$2",
+				commentptn = /\/\*([\s\S]+?)\*\//gm,
+				commentmod;
+			var CSSBlock=function(){
+				var that={};
+				var blocks=[];
+				that.length=0;
+				function push(block){
+					blocks[blocks.length]=block;
+					that.length+=1;
+				};
+				that.push=push
+				that.select=function(num){
+					if(typeof num==="number"){
+						var result={};
+						for(var key in blocks[num])
+							result[key]=blocks[num][key]
+					}else{
+						var result=[]
+						for(var i=0,j=blocks.length;i<j;i++){
+							result[i]={};
+							for(var key in blocks[i]){
+								result[i][key]=blocks[i][key];
+							}
+						}
+					}
+					return result;
+				}
+				that.init=function(str){
+					blocks=[]
+					that.length=0;
+					if(-1!==str.indexOf("{")){
+						var start=[str.indexOf("{")],
+							end=[str.indexOf("}")];
+						while(str.indexOf("{",start[start.length-1]+1)>0&&str.indexOf("{",start[start.length-1]+1)!=-1){
+							start[start.length]=str.indexOf("{",start[start.length-1]+1)+1
+							end[end.length]=str.indexOf("}",end[end.length-1]+1)
+						}
+						for(var i=start.length-1;i>0;i-=1){
+							for(var kk=0,ll=end.length;kk<ll;kk+=1){
+								if(start[i]<end[kk]&&end[kk]) {
+									var count=start[i]-2;
+									while(count>0){
+										if(str.charAt(count)==="}"){
+											count+=1
+											break;
+										}
+										count-=1
+									}
+									var now=str.slice(count,end[kk]+1)
+									now={
+										selector:/([^\{]+?)\{/.exec(now)[1],
+										properties:/\{([\s\S]+?)\}/.exec(now)[1],
+										string:now,
+										change:function(str){
+											this.string=str;
+											this.selector=/\{([\s\S]+?)\}/.exec(str)[1];
+											this.properties=/\{([\s\S]+?)\}/.exec(str)[1];
+										}
+									}
+									push(now);
+									end[kk]=null
+								}
+							}
+						}
+					}else{
+						str={
+							properties:str,
+							string:str,
+							change:function(str){
+								this.string=str;
+								this.properties=/\{([\s\S]+?)\}/.exec(str)[1];
+							}
+						}
+						push(str)
+					}
+				}
+				return that
+			}
+			CSSBlock=CSSBlock()
+			CSSBlock.init(b)
+			for(var i=0,j=CSSBlock.length;i<j;i+=1){
+				console.log("start")
+				now=CSSBlock.select(i).string;
+				console.log(now)
+				b = b.replace(now,now.replace(/([^#])\{/g, "$1{\n"));
+				now=now.replace(/([^#])\{/g, "$1{\n")
+				console.log(now)
+				b = b.replace(now,now.replace(/([^#])\{([^{]*?)([^;{}\r\n*/])\}/g, "$1{$2$3;}"));
+				now=now.replace(/([^#])\{([^{]*?)([^;{}\r\n*/])\}/g, "$1{$2$3;}")
+				console.log(now)
+				b = b.replace(now,now.replace(/([^#])\{([^{]*?)\}(?!$)/g, "$1{$2}\n"));
+				now=now.replace(/([^#])\{([^{]*?)\}(?!$)/g, "$1{$2}\n")
+				console.log(now)
+				b = b.replace(now,now.replace(/;(?!\/\*)/g,";\n"));
+				now=now.replace(/;(?!\/\*)/g,";\n")
+				console.log(now)
+				console.log("end")
+			}
+			if(indent==="tab") indentchar = "\t";
+			else if(indent==="space1")indentchar = " ";
+			else if(indent==="space2")indentchar = "  ";
+			else if(indent==="space3")indentchar = "   ";
+			else if(indent==="space4")indentchar = "    ";
+			else if(indent==="none")indentchar = "";
+			
+			if(comma==="after")commachar = ", ";
+			else if(comma==="both")commachar = " , ";
+			else if(comma==="before")commachar = " ,";
+			else if(comma==="none")commachar = ",";
+			b=b.replace(/[ ]?,[ ]?/g, commachar);
+			
+			if(comment==="after")commentmod="\/\*$1\*\/\n";
+			else if(comment==="both")commentmod="\n\/\*$1\*\/\n";
+			else if(comment==="before")commentmod="\n\/\*$1\*\/";
+			else if(comment==="none")commentmod="\/\*$1\*\/";
+			b = b.replace(commentptn, commentmod)
+			
+			var line = b.split("\n"),
+				indents = 0;
+			for(var i = 0, j = line.length; i < j; i++) {
+				if(line[i].indexOf("}") !== -1) {
+					indents--
+				}
+				line[i] = indentchar.mult(indents) + line[i];
+				if(line[i].indexOf("{") !== -1) {
+					indents++
+				}
+			}
+			b=line.join("\n");
+			
+			if(colon==="after")colonmod=colonmod+": ";
+			else if(colon==="both")colonmod=colonmod+" : ";
+			else if(colon==="before")colonmod=colonmod+" :";
+			else if(colon==="none")colonmod=colonmod+":";
+			colonmod=colonmod+"$3$4";
+			b = b.replace(colonptn, colonmod)
+			
+			CSSBlock.init(b);
+			for(var i=0,j=CSSBlock.length;i<j;i+=1){
+				b = b.replace(CSSBlock.select(i).properties,CSSBlock.select(i).properties.replace(/([: ,)(]|[\t ]?:[\t ]?)(#[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F][0-9a-fA-F]?)/g, function(all,prop,one){
+					if(color==="lower") return prop+(one.toLowerCase())
+					else if(color==="upper") return prop+(one.toUpperCase())
+				}));//カラーを小文字か大文字に
+			}
+			
+			$lform.find("#aft").val(b).select();
+			$("#mes").not(":animated").addClass("on").fadeTo(1500, 0.5,function(){$(this).removeClass("on")})
+		});
+		$lform.on("click",".select,.reset",function (e) {
+			e.sp();
+			$(this).siblings("textarea").select()
+		});
+		$bef.select();
+		$(window).on("keydown",function(e){
+			e.sp();
+			if(e.keyCode===13&&((!e.ctrlkey&&e.metaKey)||(e.ctrlkey&&!e.metakey))) $("#readable").trigger("click");
+		});
+		$("#wrench").on("click",function(event){
+			event.pd();
+			event.sp();
+			$("#options").toggle();
+		})
+		if(window.File){
+			$bef.on("dragenter",function(event){
+				event.pd();
+				event.sp();
+			}).on("dragover",function(event){
+				event.originalEvent.dataTransfer.dropEffect="copy";
+				event.pd();
+				event.sp();
+			}).on("drop",function(event){
+				//ドラッグアンドドロップ
+				event.pd();
+				event.sp();
+				event=event.originalEvent;
+				var files=event.dataTransfer.files,
+				encode=$rform.find("#encode").find("option:selected").val();
+				for(var i=0,j=files.length;i<j;i++){
+					var reader=new FileReader(),f=files[i];
+					reader.readAsText(f, encode);
+					reader.onload=$.proxy(function(){
+						$(this).val(reader.result);
+						$("#readable").trigger("click")
+					},this)
+				}
+			})
+		}else{
+			$bef.attr("placeholder","ここにコードをペーストしてください。どうやらお使いのブラウザではドラッグアンドドロップは対応していないようです。");
+		}
+	});
+}(jQuery,this));
