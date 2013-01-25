@@ -5,13 +5,6 @@
 			event.sp();
 			return false;
 		});
-		$.Event.fn=$.Event.prototype
-		$.Event.fn.pd=function(){
-			this.preventDefault();
-		}
-		$.Event.fn.sp=function(){
-			this.stopPropagation();
-		}
 		var $rform = $("#rform"),
 		$lform=$("#lform"),
 		$bef=$lform.find("#bef"),
